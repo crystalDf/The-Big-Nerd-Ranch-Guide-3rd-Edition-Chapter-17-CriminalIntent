@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">CriminalIntent</string>
+
+    <string name="crime_title_hint">Enter a title for the crime.</string>
+    <string name="crime_title_label">Title</string>
+    <string name="crime_details_label">Details</string>
+    <string name="crime_solved_label">Solved</string>
+    <string name="contact_police">Contact Police</string>
+    <string name="crime_solved_image_view">Crime Solved ImageView</string>
+    <string name="crime_requires_police_label">Requires Police</string>
+    <string name="jump_to_first">Jump To First</string>
+    <string name="jump_to_last">Jump To Last</string>
+    <string name="date_picker_title">Date of crime:</string>
+    <string name="time_picker_title">Time of crime:</string>
+    <string name="ok">OK</string>
+    <string name="new_crime">New Crime</string>
+    <string name="show_subtitle">Show Subtitle</string>
+    <string name="subtitle_singular_format">1 crime</string>
+    <string name="subtitle_plural_format">%1$d crimes</string>
+    <string name="hide_subtitle">Hide Subtitle</string>
+    <string name="delete_crime">Delete Crime</string>
+    <string name="no_crimes">There are no crimes</string>
+
+    <string name="crime_suspect_text">Choose Suspect</string>
+    <string name="crime_report_text">Send Crime Report</string>
+    <string name="crime_report">%1$s! The crime was discovered on %2$s. %3$s, %4$s and %5$s</string>
+    <string name="crime_report_solved">The case is solved</string>
+    <string name="crime_report_unsolved">The case is not solved</string>
+    <string name="crime_report_requires_police">it requires police</string>
+    <string name="crime_report_no_requires_police">it doesn\'t require police</string>
+    <string name="crime_report_no_suspect">there is no suspect.</string>
+    <string name="crime_report_suspect">the suspect is %s.</string>
+    <string name="crime_report_subject">CriminalIntent Crime Report</string>
+    <string name="send_report">Send crime report via</string>
+    <string name="crime_dial_text">Make a phone call</string>
+    <string name="detail_display_title">Detail Display</string>
+
+    <plurals name="subtitle_plural">
+        <item quantity="one">%1$s crime</item>
+        <item quantity="other">%1$s crimes</item>
+    </plurals>
+</resources>
