@@ -1,7 +1,7 @@
 package com.star.criminalintent;
 
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.constraint.ConstraintLayout;
@@ -40,10 +40,25 @@ public class CrimeListFragment extends Fragment {
 
     private boolean mSubtitleVisible;
 
+    private Callbacks mCallbacks;
+
+    public interface Callbacks {
+        void onCrimeSelected(Crime crime);
+        void onCrimeInitialized();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallbacks = (Callbacks) context;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        mCallbacks.onCrimeInitialized();
     }
 
     @Override
@@ -79,7 +94,13 @@ public class CrimeListFragment extends Fragment {
         outState.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
     }
 
-    private void updateUI() {
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
+    }
+
+    public void updateUI() {
         CrimeLab crimeLab = CrimeLab.getInstance(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
 
@@ -108,10 +129,7 @@ public class CrimeListFragment extends Fragment {
         public CrimeHolder(LayoutInflater inflater, ViewGroup container, @LayoutRes int resource) {
             super(inflater.inflate(resource, container, false));
 
-            itemView.setOnClickListener(v -> {
-                Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
-                startActivity(intent);
-            });
+            itemView.setOnClickListener(v -> mCallbacks.onCrimeSelected(mCrime));
 
             mTitleTextView = itemView.findViewById(R.id.list_item_crime_title_text_view);
             mDateTextView = itemView.findViewById(R.id.list_item_crime_date_text_view);
@@ -225,8 +243,8 @@ public class CrimeListFragment extends Fragment {
     private void newCrime() {
         Crime crime = new Crime();
         CrimeLab.getInstance(getActivity()).addCrime(crime);
-        Intent intent = CrimePagerActivity.newIntent(getActivity(), crime.getId());
-        startActivity(intent);
+        updateUI();
+        mCallbacks.onCrimeSelected(crime);
     }
 
     private void updateSubtitle() {

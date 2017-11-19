@@ -16,9 +16,10 @@ import com.star.criminalintent.model.Crime;
 import java.util.List;
 import java.util.UUID;
 
-public class CrimePagerActivity extends AppCompatActivity {
+public class CrimePagerActivity extends AppCompatActivity
+        implements CrimeFragment.Callbacks {
 
-    private static final String EXTRA_CRIME_ID = "com.star.criminalintent.crime_id";
+    public static final String EXTRA_CRIME_ID = "com.star.criminalintent.crime_id";
 
     private ViewPager mViewPager;
     private Button mJumpToFirstButton;
@@ -81,6 +82,7 @@ public class CrimePagerActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 updateUI();
+                setResult();
             }
 
             @Override
@@ -88,6 +90,8 @@ public class CrimePagerActivity extends AppCompatActivity {
 
             }
         });
+
+        setResult();
     }
 
     @Override
@@ -100,5 +104,21 @@ public class CrimePagerActivity extends AppCompatActivity {
     private void updateUI() {
         mJumpToFirstButton.setEnabled(mViewPager.getCurrentItem() != 0);
         mJumpToLastButton.setEnabled(mViewPager.getCurrentItem() != (mCrimes.size() - 1));
+    }
+
+    private void setResult() {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_CRIME_ID, mCrimes.get(mViewPager.getCurrentItem()).getId());
+        setResult(RESULT_OK, intent);
+    }
+
+    @Override
+    public void onCrimeUpdated() {
+
+    }
+
+    @Override
+    public void onCrimeDeleted() {
+        finish();
     }
 }

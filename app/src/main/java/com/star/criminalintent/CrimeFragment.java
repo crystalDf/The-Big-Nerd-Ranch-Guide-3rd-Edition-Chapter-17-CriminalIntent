@@ -2,6 +2,7 @@ package com.star.criminalintent;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -67,6 +68,13 @@ public class CrimeFragment extends Fragment {
     private ImageView mPhotoView;
     private ImageButton mCameraButton;
 
+    private Callbacks mCallbacks;
+
+    public interface Callbacks {
+        void onCrimeUpdated();
+        void onCrimeDeleted();
+    }
+
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_CRIME_ID, crimeId);
@@ -75,6 +83,12 @@ public class CrimeFragment extends Fragment {
         crimeFragment.setArguments(args);
 
         return crimeFragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallbacks = (Callbacks) context;
     }
 
     @Override
@@ -104,6 +118,7 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mCrime.setTitle(s.toString());
+                updateCrime();
             }
 
             @Override
@@ -147,12 +162,18 @@ public class CrimeFragment extends Fragment {
         mSolvedCheckBox = view.findViewById(R.id.crime_solved);
         mSolvedCheckBox.setChecked(mCrime.isSolved());
         mSolvedCheckBox.setOnCheckedChangeListener(
-                (buttonView, isChecked) -> mCrime.setSolved(isChecked));
+                (buttonView, isChecked) -> {
+                    mCrime.setSolved(isChecked);
+                    updateCrime();
+                });
 
         mRequiresPoliceCheckBox = view.findViewById(R.id.crime_requires_police);
         mRequiresPoliceCheckBox.setChecked(mCrime.isRequiresPolice());
         mRequiresPoliceCheckBox.setOnCheckedChangeListener(
-                ((buttonView, isChecked) -> mCrime.setRequiresPolice(isChecked)));
+                (buttonView, isChecked) -> {
+                    mCrime.setRequiresPolice(isChecked);
+                    updateCrime();
+                });
 
         mReportButton = view.findViewById(R.id.crime_report);
         mReportButton.setOnClickListener(v -> ShareCompat.IntentBuilder
@@ -252,7 +273,13 @@ public class CrimeFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
-        CrimeLab.getInstance(getActivity()).updateCrime(mCrime);
+        updateCrime();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
     }
 
     @Override
@@ -279,6 +306,13 @@ public class CrimeFragment extends Fragment {
 
             updatePhotoView();
         }
+
+        updateCrime();
+    }
+
+    private void updateCrime() {
+        CrimeLab.getInstance(getContext()).updateCrime(mCrime);
+        mCallbacks.onCrimeUpdated();
     }
 
     private void updateChooseSuspectButton(Intent data) {
