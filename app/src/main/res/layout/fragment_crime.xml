@@ -34,7 +34,8 @@
         app:layout_constraintTop_toBottomOf="@+id/crime_details_label"
         android:layout_marginTop="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginEnd="16dp"
+        android:inputType="date"/>
 
     <Button
         android:id="@+id/crime_time"
@@ -45,7 +46,8 @@
         app:layout_constraintTop_toBottomOf="@+id/crime_date"
         android:layout_marginTop="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginEnd="16dp"
+        android:inputType="time"/>
 
     <CheckBox
         android:id="@+id/crime_solved"
@@ -83,6 +85,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginEnd="16dp"
+        android:inputType="text"
         android:text="@string/crime_suspect_text"/>
 
     <Button
@@ -95,6 +98,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginEnd="16dp"
+        android:inputType="text"
         android:text="@string/crime_report_text"/>
 
     <Button
@@ -107,6 +111,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginEnd="16dp"
+        android:inputType="text"
         android:text="@string/crime_dial_text"/>
 
 </android.support.constraint.ConstraintLayout>
