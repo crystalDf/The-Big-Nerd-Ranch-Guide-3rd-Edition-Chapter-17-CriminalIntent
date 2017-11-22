@@ -279,13 +279,14 @@ public class CrimeFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+
         mCallbacks = null;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if ((resultCode != Activity.RESULT_OK)) {
+        if (resultCode != Activity.RESULT_OK) {
             return;
         }
 
