@@ -50,6 +50,7 @@ public class CrimeListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
         mCallbacks = (Callbacks) context;
     }
 
@@ -97,6 +98,7 @@ public class CrimeListFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+
         mCallbacks = null;
     }
 
