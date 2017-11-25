@@ -116,7 +116,6 @@ public class CrimeLab {
     }
 
     public Suspect getSuspect(String contactId) {
-
         if (contactId == null) {
             return null;
         }
