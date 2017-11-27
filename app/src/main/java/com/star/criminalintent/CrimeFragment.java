@@ -411,7 +411,7 @@ public class CrimeFragment extends Fragment {
             case R.id.menu_item_delete_crime:
                 if (mCrime != null) {
                     CrimeLab.getInstance(getActivity()).removeCrime(mCrime);
-                    getActivity().finish();
+                    mCallbacks.onCrimeDeleted();
                 }
                 return true;
             default:

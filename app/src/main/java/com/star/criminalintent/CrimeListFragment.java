@@ -58,8 +58,6 @@ public class CrimeListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        mCallbacks.onCrimeInitialized();
     }
 
     @Override
@@ -78,6 +76,8 @@ public class CrimeListFragment extends Fragment {
         mEmptyViewConstraintLayout = view.findViewById(R.id.empty_view);
         mNewCrimeButton = view.findViewById(R.id.new_crime_button);
         mNewCrimeButton.setOnClickListener(v -> newCrime());
+
+        mCallbacks.onCrimeInitialized();
 
         return view;
     }
