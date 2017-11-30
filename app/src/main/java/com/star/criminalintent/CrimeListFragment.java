@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,6 +47,8 @@ public class CrimeListFragment extends Fragment {
         void onCrimeSelected(Crime crime);
         void onCrimeInitialized();
     }
+
+    private ItemTouchHelper mItemTouchHelper;
 
     @Override
     public void onAttach(Context context) {
@@ -112,6 +115,26 @@ public class CrimeListFragment extends Fragment {
         } else {
             mCrimeAdapter.setCrimes(crimes);
             mCrimeAdapter.notifyDataSetChanged();
+        }
+
+        if (mItemTouchHelper == null) {
+            mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
+                @Override
+                public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                    return 0;
+                }
+
+                @Override
+                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
+                }
+            });
+            mItemTouchHelper.attachToRecyclerView(mCrimeRecyclerView);
         }
 
         updateSubtitle();
