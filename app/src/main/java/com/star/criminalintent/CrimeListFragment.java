@@ -132,6 +132,8 @@ public class CrimeListFragment extends Fragment {
                 @Override
                 public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
 
+
+
                 }
             });
             mItemTouchHelper.attachToRecyclerView(mCrimeRecyclerView);
