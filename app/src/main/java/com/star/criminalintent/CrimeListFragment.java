@@ -46,6 +46,7 @@ public class CrimeListFragment extends Fragment {
     public interface Callbacks {
         void onCrimeSelected(Crime crime);
         void onCrimeInitialized();
+        void onCrimeDeleted();
     }
 
     private ItemTouchHelper mItemTouchHelper;
@@ -118,11 +119,7 @@ public class CrimeListFragment extends Fragment {
         }
 
         if (mItemTouchHelper == null) {
-            mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
-                @Override
-                public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                    return 0;
-                }
+            mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT) {
 
                 @Override
                 public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -131,9 +128,8 @@ public class CrimeListFragment extends Fragment {
 
                 @Override
                 public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-
-                    crimeLab.removeCrime(((CrimeHolder) viewHolder).mCrime);
-
+                    CrimeLab.getInstance(getActivity()).removeCrime(((CrimeHolder) viewHolder).mCrime);
+                    mCallbacks.onCrimeDeleted();
                 }
             });
             mItemTouchHelper.attachToRecyclerView(mCrimeRecyclerView);
