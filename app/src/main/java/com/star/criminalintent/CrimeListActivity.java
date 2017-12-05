@@ -93,7 +93,7 @@ public class CrimeListActivity extends SingleFragmentActivity
                         .replace(R.id.detail_fragment_container, newDetail)
                         .commit();
             } else {
-                onCrimeDeleted();
+//                onCrimeDeleted();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
