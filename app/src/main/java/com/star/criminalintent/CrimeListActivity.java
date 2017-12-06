@@ -3,9 +3,7 @@ package com.star.criminalintent;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.view.View;
 
 import com.star.criminalintent.model.Crime;
 
@@ -31,11 +29,14 @@ public class CrimeListActivity extends SingleFragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        onCrimeInitialized();
+        adjustDetailFragment();
     }
 
-    public void onCrimeInitialized() {
-        if (findViewById(R.id.detail_fragment_container) == null) {
+    public void adjustDetailFragment() {
+
+        List<Crime> crimes = CrimeLab.getInstance(this).getCrimes();
+
+        if ((findViewById(R.id.detail_fragment_container) == null) || crimes.isEmpty()) {
             Fragment fragment = getSupportFragmentManager().findFragmentById(
                     R.id.detail_fragment_container);
             if (fragment != null) {
@@ -47,28 +48,10 @@ public class CrimeListActivity extends SingleFragmentActivity
             return;
         }
 
-        List<Crime> crimes = CrimeLab.getInstance(this).getCrimes();
-
-        if (!crimes.isEmpty()) {
-            Fragment newDetail = CrimeFragment.newInstance(crimes.get(0).getId());
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.detail_fragment_container, newDetail)
-                    .commit();
-        } else {
-            ConstraintLayout detailsLayout =
-                    findViewById(R.id.crime_details_constraint_layout);
-            if (detailsLayout != null) {
-                detailsLayout.setVisibility(View.GONE);
-            }
-
-            Fragment fragment = getSupportFragmentManager().findFragmentById(
-                    R.id.detail_fragment_container);
-            if (fragment != null) {
-                getSupportFragmentManager().beginTransaction()
-                        .remove(fragment)
-                        .commit();
-            }
-        }
+        Fragment newDetail = CrimeFragment.newInstance(crimes.get(0).getId());
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.detail_fragment_container, newDetail)
+                .commit();
     }
 
     @Override
@@ -93,7 +76,7 @@ public class CrimeListActivity extends SingleFragmentActivity
 
     @Override
     public void onCrimeDeleted() {
-        onCrimeInitialized();
+        adjustDetailFragment();
         onCrimeUpdated();
     }
 
