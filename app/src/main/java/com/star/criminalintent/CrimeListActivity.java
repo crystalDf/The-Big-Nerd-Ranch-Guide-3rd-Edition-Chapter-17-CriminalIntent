@@ -2,6 +2,7 @@ package com.star.criminalintent;
 
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -27,7 +28,13 @@ public class CrimeListActivity extends SingleFragmentActivity
     }
 
     @Override
-    public void onCrimeSelected(Crime crime) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        onCrimeInitialized();
+    }
+
+    public void onCrimeInitialized() {
         if (findViewById(R.id.detail_fragment_container) == null) {
             Fragment fragment = getSupportFragmentManager().findFragmentById(
                     R.id.detail_fragment_container);
@@ -36,19 +43,7 @@ public class CrimeListActivity extends SingleFragmentActivity
                         .remove(fragment)
                         .commit();
             }
-            Intent intent = CrimePagerActivity.newIntent(this, crime.getId());
-            startActivityForResult(intent, REQUEST_CRIME);
-        } else {
-            Fragment newDetail = CrimeFragment.newInstance(crime.getId());
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.detail_fragment_container, newDetail)
-                    .commit();
-        }
-    }
 
-    @Override
-    public void onCrimeInitialized() {
-        if (findViewById(R.id.detail_fragment_container) == null) {
             return;
         }
 
@@ -65,6 +60,27 @@ public class CrimeListActivity extends SingleFragmentActivity
             if (detailsLayout != null) {
                 detailsLayout.setVisibility(View.GONE);
             }
+
+            Fragment fragment = getSupportFragmentManager().findFragmentById(
+                    R.id.detail_fragment_container);
+            if (fragment != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .remove(fragment)
+                        .commit();
+            }
+        }
+    }
+
+    @Override
+    public void onCrimeSelected(Crime crime) {
+        if (findViewById(R.id.detail_fragment_container) == null) {
+            Intent intent = CrimePagerActivity.newIntent(this, crime.getId());
+            startActivityForResult(intent, REQUEST_CRIME);
+        } else {
+            Fragment newDetail = CrimeFragment.newInstance(crime.getId());
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detail_fragment_container, newDetail)
+                    .commit();
         }
     }
 
@@ -92,8 +108,6 @@ public class CrimeListActivity extends SingleFragmentActivity
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.detail_fragment_container, newDetail)
                         .commit();
-            } else {
-//                onCrimeDeleted();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

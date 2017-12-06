@@ -45,7 +45,6 @@ public class CrimeListFragment extends Fragment {
 
     public interface Callbacks {
         void onCrimeSelected(Crime crime);
-        void onCrimeInitialized();
         void onCrimeDeleted();
     }
 
@@ -80,8 +79,6 @@ public class CrimeListFragment extends Fragment {
         mEmptyViewConstraintLayout = view.findViewById(R.id.empty_view);
         mNewCrimeButton = view.findViewById(R.id.new_crime_button);
         mNewCrimeButton.setOnClickListener(v -> newCrime());
-
-        mCallbacks.onCrimeInitialized();
 
         return view;
     }
