@@ -29,10 +29,10 @@ public class CrimeListActivity extends SingleFragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        adjustDetailFragment();
+        updateDetailFragment();
     }
 
-    public void adjustDetailFragment() {
+    public void updateDetailFragment() {
 
         List<Crime> crimes = CrimeLab.getInstance(this).getCrimes();
 
@@ -76,7 +76,7 @@ public class CrimeListActivity extends SingleFragmentActivity
 
     @Override
     public void onCrimeDeleted() {
-        adjustDetailFragment();
+        updateDetailFragment();
         onCrimeUpdated();
     }
 
